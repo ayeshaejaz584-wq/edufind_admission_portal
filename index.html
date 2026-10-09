@@ -1,0 +1,2008 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EduFind | Online Admission Application</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Poppins", sans-serif;
+            min-height: 100vh;
+            background:
+                linear-gradient(135deg, #071a3d, #102a5c, #4f46e5);
+            color: #1e293b;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            width: 100%;
+            min-height: 76px;
+            padding: 0 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+            color: white;
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #60a5fa;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-help {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .application-id {
+            background: rgba(255,255,255,0.12);
+            padding: 9px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+        }
+
+        .application-id strong {
+            color: #93c5fd;
+        }
+
+
+        /* ================= MAIN ================= */
+
+        .page-container {
+            width: min(1250px, 92%);
+            margin: 45px auto;
+        }
+
+        .page-heading {
+            text-align: center;
+            color: white;
+            margin-bottom: 35px;
+        }
+
+        .page-heading .tag {
+            display: inline-block;
+            background: rgba(96,165,250,0.18);
+            border: 1px solid rgba(147,197,253,0.35);
+            color: #bfdbfe;
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .page-heading h1 {
+            font-size: clamp(28px, 4vw, 45px);
+            margin-bottom: 10px;
+        }
+
+        .page-heading p {
+            color: #cbd5e1;
+            font-size: 14px;
+        }
+
+
+        /* ================= FORM WRAPPER ================= */
+
+        .application-wrapper {
+            background: rgba(255,255,255,0.97);
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 25px 70px rgba(0,0,0,0.3);
+        }
+
+
+        /* ================= TOP PROGRESS ================= */
+
+        .progress-area {
+            padding: 30px 50px 20px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .progress-steps::before {
+            content: "";
+            position: absolute;
+            top: 20px;
+            left: 10%;
+            width: 80%;
+            height: 4px;
+            background: #e2e8f0;
+            z-index: 0;
+        }
+
+        .progress-line {
+            position: absolute;
+            top: 20px;
+            left: 10%;
+            height: 4px;
+            width: 0%;
+            background: linear-gradient(90deg, #2563eb, #7c3aed);
+            z-index: 1;
+            transition: 0.4s;
+        }
+
+        .progress-step {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            width: 25%;
+        }
+
+        .step-circle {
+            width: 42px;
+            height: 42px;
+            margin: auto;
+            background: white;
+            border: 3px solid #cbd5e1;
+            color: #64748b;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+
+        .progress-step.active .step-circle,
+        .progress-step.completed .step-circle {
+            border-color: #2563eb;
+            background: #2563eb;
+            color: white;
+        }
+
+        .progress-step p {
+            margin-top: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748b;
+        }
+
+        .progress-step.active p {
+            color: #2563eb;
+        }
+
+
+        /* ================= FORM ================= */
+
+        .form-content {
+            padding: 45px 55px;
+        }
+
+        .form-step {
+            display: none;
+            animation: fade 0.4s ease;
+        }
+
+        .form-step.active {
+            display: block;
+        }
+
+        @keyframes fade {
+
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+        .section-title {
+            margin-bottom: 30px;
+        }
+
+        .section-title h2 {
+            font-size: 25px;
+            color: #172554;
+            margin-bottom: 7px;
+        }
+
+        .section-title p {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+
+        /* ================= FORM GRID ================= */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 22px;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .input-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .input-group label span {
+            color: #ef4444;
+        }
+
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
+            width: 100%;
+            padding: 14px 15px;
+            border: 1.5px solid #dbe1ea;
+            border-radius: 11px;
+            font-family: inherit;
+            outline: none;
+            font-size: 13px;
+            background: #fff;
+            transition: 0.3s;
+        }
+
+        .input-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus,
+        .input-group textarea:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 4px rgba(37,99,235,0.08);
+        }
+
+
+        /* ================= PHOTO ================= */
+
+        .photo-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 18px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .photo-preview {
+            width: 90px;
+            height: 90px;
+            border-radius: 15px;
+            background: #e0e7ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            font-size: 35px;
+        }
+
+        .photo-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .photo-info h4 {
+            margin-bottom: 5px;
+            color: #1e293b;
+        }
+
+        .photo-info p {
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 10px;
+        }
+
+        .upload-btn {
+            display: inline-block;
+            background: #e0e7ff;
+            color: #3730a3;
+            padding: 9px 15px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        #photoInput {
+            display: none;
+        }
+
+
+        /* ================= MARKS ================= */
+
+        .percentage-box {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #eff6ff, #eef2ff);
+            border: 1px solid #bfdbfe;
+            border-radius: 14px;
+            padding: 18px 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .percentage-box p {
+            font-size: 13px;
+            color: #475569;
+        }
+
+        .percentage-value {
+            font-size: 26px;
+            font-weight: 800;
+            color: #2563eb;
+        }
+
+
+        /* ================= PROGRAM CARDS ================= */
+
+        .preference-card {
+            border: 1.5px solid #e2e8f0;
+            padding: 20px;
+            border-radius: 14px;
+            margin-top: 20px;
+            background: #fafcff;
+        }
+
+        .preference-card h3 {
+            font-size: 15px;
+            margin-bottom: 5px;
+            color: #1e3a8a;
+        }
+
+        .preference-card p {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+
+        /* ================= DOCUMENTS ================= */
+
+        .documents-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .upload-card {
+            border: 2px dashed #cbd5e1;
+            border-radius: 15px;
+            padding: 28px 15px;
+            text-align: center;
+            transition: 0.3s;
+            cursor: pointer;
+            background: #f8fafc;
+        }
+
+        .upload-card:hover {
+            border-color: #2563eb;
+            background: #eff6ff;
+        }
+
+        .upload-card .icon {
+            font-size: 34px;
+            margin-bottom: 10px;
+        }
+
+        .upload-card h4 {
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .upload-card p {
+            font-size: 11px;
+            color: #64748b;
+            margin-bottom: 12px;
+        }
+
+        .upload-card input {
+            display: none;
+        }
+
+        .browse-btn {
+            display: inline-block;
+            color: #2563eb;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .file-name {
+            font-size: 10px;
+            color: #16a34a;
+            margin-top: 8px;
+            word-break: break-word;
+        }
+
+
+        /* ================= REVIEW ================= */
+
+        .review-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .review-item {
+            padding: 14px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .review-item:last-child {
+            border-bottom: none;
+        }
+
+        .review-label {
+            font-size: 11px;
+            color: #64748b;
+            margin-bottom: 4px;
+        }
+
+        .review-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+
+        /* ================= DECLARATION ================= */
+
+        .declaration {
+            margin-top: 25px;
+            padding: 18px;
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            border-radius: 12px;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .declaration input {
+            margin-top: 4px;
+        }
+
+        .declaration label {
+            font-size: 12px;
+            color: #78350f;
+            line-height: 1.6;
+        }
+
+
+        /* ================= BUTTONS ================= */
+
+        .form-buttons {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .left-buttons,
+        .right-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        button {
+            border: none;
+            font-family: inherit;
+            font-weight: 600;
+            padding: 13px 22px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .prev-btn {
+            background: #f1f5f9;
+            color: #475569;
+        }
+
+        .prev-btn:hover {
+            background: #e2e8f0;
+        }
+
+        .draft-btn {
+            background: #fff;
+            border: 1px solid #cbd5e1;
+            color: #475569;
+        }
+
+        .next-btn,
+        .submit-btn {
+            background: linear-gradient(135deg, #2563eb, #4f46e5);
+            color: white;
+            box-shadow: 0 8px 20px rgba(37,99,235,0.25);
+        }
+
+        .next-btn:hover,
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(37,99,235,0.35);
+        }
+
+
+        /* ================= SUCCESS MODAL ================= */
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15,23,42,0.75);
+            backdrop-filter: blur(6px);
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            width: min(450px, 100%);
+            border-radius: 25px;
+            padding: 45px 35px;
+            text-align: center;
+            animation: modalShow 0.4s ease;
+        }
+
+        @keyframes modalShow {
+
+            from {
+                opacity: 0;
+                transform: scale(0.85);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+        }
+
+        .success-circle {
+            width: 80px;
+            height: 80px;
+            margin: auto;
+            margin-bottom: 20px;
+            border-radius: 50%;
+            background: #dcfce7;
+            color: #16a34a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            font-weight: 800;
+        }
+
+        .modal-content h2 {
+            color: #172554;
+            margin-bottom: 10px;
+        }
+
+        .modal-content p {
+            color: #64748b;
+            font-size: 13px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .app-number {
+            background: #eff6ff;
+            color: #1d4ed8;
+            padding: 13px;
+            border-radius: 10px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .close-modal {
+            background: #2563eb;
+            color: white;
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 850px) {
+
+            .form-content,
+            .progress-area {
+                padding: 30px 25px;
+            }
+
+            .documents-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            .navbar {
+                padding: 15px 5%;
+            }
+
+            .nav-help {
+                display: none;
+            }
+
+            .application-id {
+                font-size: 10px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-content {
+                padding: 30px 20px;
+            }
+
+            .progress-area {
+                padding: 25px 10px;
+            }
+
+            .progress-step p {
+                font-size: 9px;
+            }
+
+            .step-circle {
+                width: 35px;
+                height: 35px;
+                font-size: 12px;
+            }
+
+            .progress-steps::before,
+            .progress-line {
+                top: 17px;
+            }
+
+            .photo-section {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .form-buttons {
+                flex-direction: column;
+            }
+
+            .left-buttons,
+            .right-buttons {
+                width: 100%;
+            }
+
+            .left-buttons button,
+            .right-buttons button {
+                flex: 1;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Edu<span>Find</span>
+        </div>
+
+        <div class="nav-right">
+
+            <div class="nav-help">
+                Need Help?
+            </div>
+
+            <div class="application-id">
+                Application ID:
+                <strong id="applicationID"></strong>
+            </div>
+
+        </div>
+
+    </nav>
+
+
+
+    <main class="page-container">
+
+
+        <!-- HEADING -->
+
+        <div class="page-heading">
+
+            <div class="tag">
+                ONLINE ADMISSION PORTAL
+            </div>
+
+            <h1>
+                Start Your Academic Journey
+            </h1>
+
+            <p>
+                Complete your application carefully to apply for admission.
+            </p>
+
+        </div>
+
+
+
+        <!-- APPLICATION -->
+
+        <div class="application-wrapper">
+
+
+            <!-- PROGRESS -->
+
+            <div class="progress-area">
+
+                <div class="progress-steps">
+
+                    <div class="progress-line" id="progressLine"></div>
+
+
+                    <div class="progress-step active">
+
+                        <div class="step-circle">
+                            1
+                        </div>
+
+                        <p>Personal</p>
+
+                    </div>
+
+
+                    <div class="progress-step">
+
+                        <div class="step-circle">
+                            2
+                        </div>
+
+                        <p>Academic</p>
+
+                    </div>
+
+
+                    <div class="progress-step">
+
+                        <div class="step-circle">
+                            3
+                        </div>
+
+                        <p>Preferences</p>
+
+                    </div>
+
+
+                    <div class="progress-step">
+
+                        <div class="step-circle">
+                            4
+                        </div>
+
+                        <p>Documents</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- FORM -->
+
+            <form id="admissionForm">
+
+                <div class="form-content">
+
+
+                    <!-- ================= STEP 1 ================= -->
+
+                    <div class="form-step active">
+
+                        <div class="section-title">
+
+                            <h2>
+                                Personal Information
+                            </h2>
+
+                            <p>
+                                Please enter your personal details.
+                            </p>
+
+                        </div>
+
+
+                        <!-- PHOTO -->
+
+                        <div class="photo-section">
+
+                            <div class="photo-preview" id="photoPreview">
+                                👤
+                            </div>
+
+
+                            <div class="photo-info">
+
+                                <h4>
+                                    Profile Photograph
+                                </h4>
+
+                                <p>
+                                    Upload a clear passport-size photo.
+                                </p>
+
+                                <label for="photoInput" class="upload-btn">
+                                    Upload Photo
+                                </label>
+
+                                <input
+                                    type="file"
+                                    id="photoInput"
+                                    accept="image/*">
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="form-grid">
+
+
+                            <div class="input-group">
+
+                                <label>
+                                    First Name <span>*</span>
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="firstName"
+                                    placeholder="Enter first name"
+                                    required>
+
+                            </div>
+
+
+
+                            <div class="input-group">
+
+                                <label>
+                                    Last Name <span>*</span>
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="lastName"
+                                    placeholder="Enter last name"
+                                    required>
+
+                            </div>
+
+
+
+                            <div class="input-group">
+
+                                <label>
+                                    CNIC / B-Form <span>*</span>
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="cnic"
+                                    maxlength="15"
+                                    placeholder="12345-1234567-1"
+                                    required>
+
+                            </div>
+
+
+
+                            <div class="input-group">
+
+                                <label>
+                                    Date of Birth <span>*</span>
+                                </label>
+
+                                <input
+                                    type="date"
+                                    id="dob"
+                                    required>
+
+                            </div>
+
+
+
+                            <div class="input-group">
+
+                                <label>
+                                    Email Address <span>*</span>
+                                </label>
+
+                                <input
+                                    type="email"
+                                    id="email"
+                                    placeholder="example@email.com"
+                                    required>
+
+                            </div>
+
+
+
+                            <div class="input-group">
+
+                                <label>
+                                    Phone Number <span>*</span>
+                                </label>
+
+                                <input
+                                    type="tel"
+                                    id="phone"
+                                    placeholder="+92 300 1234567"
+                                    required>
+
+                            </div>
+
+
+
+                            <div class="input-group">
+
+                                <label>
+                                    Gender <span>*</span>
+                                </label>
+
+                                <select id="gender" required>
+
+                                    <option value="">
+                                        Select Gender
+                                    </option>
+
+                                    <option>Female</option>
+                                    <option>Male</option>
+                                    <option>Other</option>
+
+                                </select>
+
+                            </div>
+
+
+
+                            <div class="input-group">
+
+                                <label>
+                                    City <span>*</span>
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="city"
+                                    placeholder="Enter your city"
+                                    required>
+
+                            </div>
+
+
+
+                            <div class="input-group full-width">
+
+                                <label>
+                                    Complete Address <span>*</span>
+                                </label>
+
+                                <textarea
+                                    id="address"
+                                    placeholder="Enter complete address"
+                                    required></textarea>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ================= STEP 2 ================= -->
+
+                    <div class="form-step">
+
+                        <div class="section-title">
+
+                            <h2>
+                                Academic Information
+                            </h2>
+
+                            <p>
+                                Enter your latest educational qualification.
+                            </p>
+
+                        </div>
+
+
+                        <div class="form-grid">
+
+
+                            <div class="input-group">
+
+                                <label>
+                                    Qualification <span>*</span>
+                                </label>
+
+                                <select id="qualification" required>
+
+                                    <option value="">
+                                        Select Qualification
+                                    </option>
+
+                                    <option>Matric / O-Level</option>
+                                    <option>Intermediate / A-Level</option>
+                                    <option>ADP</option>
+                                    <option>Bachelor</option>
+
+                                </select>
+
+                            </div>
+
+
+
+                            <div class="input-group">
+
+                                <label>
+                                    Education Board <span>*</span>
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="board"
+                                    placeholder="e.g. BISE Faisalabad"
+                                    required>
+
+                            </div>
+
+
+
+                            <div class="input-group">
+
+                                <label>
+                                    Roll Number
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="rollNumber"
+                                    placeholder="Enter roll number">
+
+                            </div>
+
+
+
+                            <div class="input-group">
+
+                                <label>
+                                    Passing Year <span>*</span>
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="passingYear"
+                                    placeholder="2026"
+                                    required>
+
+                            </div>
+
+
+
+                            <div class="input-group">
+
+                                <label>
+                                    Total Marks <span>*</span>
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="totalMarks"
+                                    placeholder="e.g. 1200"
+                                    required>
+
+                            </div>
+
+
+
+                            <div class="input-group">
+
+                                <label>
+                                    Obtained Marks <span>*</span>
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="obtainedMarks"
+                                    placeholder="e.g. 916"
+                                    required>
+
+                            </div>
+
+
+
+                            <div class="percentage-box">
+
+                                <p>
+                                    Your Percentage
+                                </p>
+
+                                <div class="percentage-value" id="percentage">
+                                    0%
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ================= STEP 3 ================= -->
+
+                    <div class="form-step">
+
+                        <div class="section-title">
+
+                            <h2>
+                                Admission Preferences
+                            </h2>
+
+                            <p>
+                                Select the university and program you want to apply for.
+                            </p>
+
+                        </div>
+
+
+                        <div class="form-grid">
+
+
+                            <div class="input-group">
+
+                                <label>
+                                    University <span>*</span>
+                                </label>
+
+                                <select id="university" required>
+
+                                    <option value="">
+                                        Select University
+                                    </option>
+
+                                    <option>
+                                        Bahauddin Zakariya University
+                                    </option>
+
+                                    <option>
+                                        COMSATS University
+                                    </option>
+
+                                    <option>
+                                        University of Punjab
+                                    </option>
+
+                                    <option>
+                                        University of Engineering and Technology
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+
+                            <div class="input-group">
+
+                                <label>
+                                    Campus <span>*</span>
+                                </label>
+
+                                <select id="campus" required>
+
+                                    <option value="">
+                                        Select Campus
+                                    </option>
+
+                                    <option>Main Campus</option>
+                                    <option>Lahore Campus</option>
+                                    <option>Islamabad Campus</option>
+
+                                </select>
+
+                            </div>
+
+
+
+                            <div class="input-group">
+
+                                <label>
+                                    Program <span>*</span>
+                                </label>
+
+                                <select id="program" required>
+
+                                    <option value="">
+                                        Select Program
+                                    </option>
+
+                                    <option>
+                                        BS Computer Science
+                                    </option>
+
+                                    <option>
+                                        BS Software Engineering
+                                    </option>
+
+                                    <option>
+                                        BS Information Technology
+                                    </option>
+
+                                    <option>
+                                        BS Artificial Intelligence
+                                    </option>
+
+                                    <option>
+                                        BBA
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+
+                            <div class="input-group">
+
+                                <label>
+                                    Admission Session
+                                </label>
+
+                                <select id="session">
+
+                                    <option>
+                                        Fall 2026
+                                    </option>
+
+                                    <option>
+                                        Spring 2027
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="preference-card">
+
+                            <h3>
+                                🎓 Your Selected Program
+                            </h3>
+
+                            <p id="selectedProgram">
+                                Select your university and program above.
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- ================= STEP 4 ================= -->
+
+                    <div class="form-step">
+
+                        <div class="section-title">
+
+                            <h2>
+                                Documents & Final Submission
+                            </h2>
+
+                            <p>
+                                Upload required documents and confirm your application.
+                            </p>
+
+                        </div>
+
+
+                        <div class="documents-grid">
+
+
+                            <div class="upload-card">
+
+                                <div class="icon">
+                                    📄
+                                </div>
+
+                                <h4>
+                                    Academic Result
+                                </h4>
+
+                                <p>
+                                    PDF, JPG or PNG
+                                </p>
+
+                                <label
+                                    for="academicFile"
+                                    class="browse-btn">
+
+                                    Browse File
+
+                                </label>
+
+                                <input
+                                    type="file"
+                                    id="academicFile">
+
+                                <div
+                                    class="file-name"
+                                    id="academicFileName">
+
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="upload-card">
+
+                                <div class="icon">
+                                    🪪
+                                </div>
+
+                                <h4>
+                                    CNIC / B-Form
+                                </h4>
+
+                                <p>
+                                    PDF, JPG or PNG
+                                </p>
+
+                                <label
+                                    for="cnicFile"
+                                    class="browse-btn">
+
+                                    Browse File
+
+                                </label>
+
+                                <input
+                                    type="file"
+                                    id="cnicFile">
+
+                                <div
+                                    class="file-name"
+                                    id="cnicFileName">
+
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="upload-card">
+
+                                <div class="icon">
+                                    🖼️
+                                </div>
+
+                                <h4>
+                                    Passport Photo
+                                </h4>
+
+                                <p>
+                                    JPG or PNG
+                                </p>
+
+                                <label
+                                    for="photoDocument"
+                                    class="browse-btn">
+
+                                    Browse File
+
+                                </label>
+
+                                <input
+                                    type="file"
+                                    id="photoDocument">
+
+                                <div
+                                    class="file-name"
+                                    id="photoDocumentName">
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <!-- REVIEW -->
+
+                        <div class="section-title" style="margin-top:35px;">
+
+                            <h2>
+                                Application Summary
+                            </h2>
+
+                        </div>
+
+
+                        <div class="review-box">
+
+                            <div class="review-item">
+
+                                <div class="review-label">
+                                    Applicant
+                                </div>
+
+                                <div
+                                    class="review-value"
+                                    id="reviewName">
+
+                                    -
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="review-item">
+
+                                <div class="review-label">
+                                    Qualification
+                                </div>
+
+                                <div
+                                    class="review-value"
+                                    id="reviewQualification">
+
+                                    -
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="review-item">
+
+                                <div class="review-label">
+                                    University & Program
+                                </div>
+
+                                <div
+                                    class="review-value"
+                                    id="reviewProgram">
+
+                                    -
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="review-item">
+
+                                <div class="review-label">
+                                    Percentage
+                                </div>
+
+                                <div
+                                    class="review-value"
+                                    id="reviewPercentage">
+
+                                    -
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- DECLARATION -->
+
+                        <div class="declaration">
+
+                            <input
+                                type="checkbox"
+                                id="declaration"
+                                required>
+
+                            <label for="declaration">
+
+                                I declare that all information provided
+                                in this admission application is true
+                                and correct. I understand that incorrect
+                                information may result in cancellation
+                                of my application.
+
+                            </label>
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- ================= BUTTONS ================= -->
+
+                    <div class="form-buttons">
+
+
+                        <div class="left-buttons">
+
+                            <button
+                                type="button"
+                                class="prev-btn"
+                                id="prevBtn">
+
+                                ← Previous
+
+                            </button>
+
+                        </div>
+
+
+                        <div class="right-buttons">
+
+                            <button
+                                type="button"
+                                class="draft-btn"
+                                id="draftBtn">
+
+                                Save Draft
+
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="next-btn"
+                                id="nextBtn">
+
+                                Continue →
+
+                            </button>
+
+
+                            <button
+                                type="submit"
+                                class="submit-btn"
+                                id="submitBtn"
+                                style="display:none;">
+
+                                Submit Application 🚀
+
+                            </button>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+
+
+    <!-- SUCCESS MODAL -->
+
+    <div class="modal" id="successModal">
+
+        <div class="modal-content">
+
+            <div class="success-circle">
+                ✓
+            </div>
+
+            <h2>
+                Application Submitted!
+            </h2>
+
+            <p>
+                Your admission application has been successfully submitted.
+                Please save your Application ID for future reference.
+            </p>
+
+            <div class="app-number" id="modalApplicationID">
+            </div>
+
+            <button
+                type="button"
+                class="close-modal"
+                onclick="closeModal()">
+
+                Close
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("admissionForm");
+    const steps = Array.from(document.querySelectorAll(".form-step"));
+    const progressSteps = Array.from(document.querySelectorAll(".progress-step"));
+    const progressLine = document.getElementById("progressLine");
+    const nextBtn = document.getElementById("nextBtn");
+    const prevBtn = document.getElementById("prevBtn");
+    const submitBtn = document.getElementById("submitBtn");
+    const draftBtn = document.getElementById("draftBtn");
+
+    const photoInput = document.getElementById("photoInput");
+    const photoPreview = document.getElementById("photoPreview");
+    const academicFile = document.getElementById("academicFile");
+    const cnicFile = document.getElementById("cnicFile");
+    const photoDocument = document.getElementById("photoDocument");
+
+    const applicationID = "EDF-2026-" + Math.floor(100000 + Math.random() * 900000);
+    document.getElementById("applicationID").textContent = applicationID;
+
+    let currentStep = 0;
+
+    function updateProgress() {
+        steps.forEach((step, index) => {
+            step.classList.toggle("active", index === currentStep);
+        });
+
+        progressSteps.forEach((step, index) => {
+            step.classList.toggle("active", index <= currentStep);
+        });
+
+        if (progressLine) {
+            const percent = steps.length <= 1 ? 0 : (currentStep / (steps.length - 1)) * 100;
+            progressLine.style.width = percent + "%";
+        }
+
+        prevBtn.style.visibility = currentStep === 0 ? "hidden" : "visible";
+        nextBtn.style.display = currentStep === steps.length - 1 ? "none" : "inline-block";
+        submitBtn.style.display = currentStep === steps.length - 1 ? "inline-block" : "none";
+
+        if (currentStep === steps.length - 1) {
+            updateReview();
+        }
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function fieldsInStep(index) {
+        return Array.from(steps[index].querySelectorAll("input, select, textarea"))
+            .filter(el => el.type !== "file" && el.type !== "button" && el.type !== "submit");
+    }
+
+    function validateStep(index) {
+        const fields = fieldsInStep(index);
+        for (const field of fields) {
+            if (!field.checkValidity()) {
+                field.reportValidity();
+                return false;
+            }
+        }
+
+        if (index === 3) {
+            if (!academicFile.files.length) {
+                alert("Please upload your academic result.");
+                return false;
+            }
+            if (!cnicFile.files.length) {
+                alert("Please upload your CNIC / B-Form.");
+                return false;
+            }
+            if (!photoInput.files.length && !photoDocument.files.length) {
+                alert("Please upload your passport photo.");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    function updateReview() {
+        const value = id => document.getElementById(id)?.value || "-";
+        document.getElementById("reviewName").textContent =
+            (value("firstName") + " " + value("lastName")).trim() || "-";
+        document.getElementById("reviewQualification").textContent =
+            value("qualification");
+        document.getElementById("reviewProgram").textContent =
+            value("university") + " — " + value("program");
+        document.getElementById("reviewPercentage").textContent =
+            document.getElementById("percentage").textContent || "0%";
+    }
+
+    function calculatePercentage() {
+        const total = Number(document.getElementById("totalMarks").value);
+        const obtained = Number(document.getElementById("obtainedMarks").value);
+        const output = document.getElementById("percentage");
+
+        if (total > 0 && obtained >= 0 && obtained <= total) {
+            output.textContent = ((obtained / total) * 100).toFixed(2) + "%";
+        } else {
+            output.textContent = "0%";
+        }
+    }
+
+    ["totalMarks", "obtainedMarks"].forEach(id => {
+        document.getElementById(id).addEventListener("input", calculatePercentage);
+    });
+
+    photoInput.addEventListener("change", function () {
+        const file = this.files[0];
+        if (!file) return;
+
+        if (!["image/jpeg", "image/png"].includes(file.type)) {
+            alert("Please select a JPG or PNG image.");
+            this.value = "";
+            return;
+        }
+
+        if (file.size > 5 * 1024 * 1024) {
+            alert("Photo must be smaller than 5 MB.");
+            this.value = "";
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = e => {
+            photoPreview.innerHTML = '<img src="' + e.target.result + '" alt="Profile Photo">';
+        };
+        reader.readAsDataURL(file);
+    });
+
+    function showFileName(input, targetId) {
+        input.addEventListener("change", function () {
+            const target = document.getElementById(targetId);
+            target.textContent = this.files[0] ? this.files[0].name : "";
+        });
+    }
+
+    showFileName(academicFile, "academicFileName");
+    showFileName(cnicFile, "cnicFile");
+    showFileName(photoDocument, "photoDocumentName");
+
+    document.getElementById("program").addEventListener("change", function () {
+        document.getElementById("selectedProgram").textContent =
+            this.value ? "Selected program: " + this.value : "No program selected";
+    });
+
+    nextBtn.addEventListener("click", function () {
+        if (!validateStep(currentStep)) return;
+        if (currentStep < steps.length - 1) {
+            currentStep++;
+            updateProgress();
+        }
+    });
+
+    prevBtn.addEventListener("click", function () {
+        if (currentStep > 0) {
+            currentStep--;
+            updateProgress();
+        }
+    });
+
+    draftBtn.addEventListener("click", function () {
+        const data = {};
+        Array.from(form.querySelectorAll("input, select, textarea")).forEach(el => {
+            if (!el.id || el.type === "file" || el.type === "submit" || el.type === "button") return;
+            if (el.type === "checkbox") data[el.id] = el.checked;
+            else data[el.id] = el.value;
+        });
+
+        localStorage.setItem("edufindApplicationDraft", JSON.stringify(data));
+        alert("Your application draft has been saved in this browser.");
+    });
+
+    function loadDraft() {
+        const saved = localStorage.getItem("edufindApplicationDraft");
+        if (!saved) return;
+
+        try {
+            const data = JSON.parse(saved);
+            Object.entries(data).forEach(([id, value]) => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                if (el.type === "checkbox") el.checked = Boolean(value);
+                else el.value = value;
+            });
+            calculatePercentage();
+            document.getElementById("selectedProgram").textContent =
+                document.getElementById("program").value
+                    ? "Selected program: " + document.getElementById("program").value
+                    : "No program selected";
+        } catch (e) {
+            localStorage.removeItem("edufindApplicationDraft");
+        }
+    }
+
+    form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        if (!validateStep(currentStep)) return;
+
+        const declaration = document.getElementById("declaration");
+        if (!declaration.checked) {
+            declaration.reportValidity();
+            return;
+        }
+
+        const formData = new FormData();
+
+        const appendValue = (key, id) => {
+            formData.append(key, document.getElementById(id).value);
+        };
+
+        formData.append("application_id", applicationID);
+
+        appendValue("first_name", "firstName");
+        appendValue("last_name", "lastName");
+        appendValue("cnic", "cnic");
+        appendValue("dob", "dob");
+        appendValue("email", "email");
+        appendValue("phone", "phone");
+        appendValue("gender", "gender");
+        appendValue("city", "city");
+        appendValue("address", "address");
+
+        appendValue("qualification", "qualification");
+        appendValue("board", "board");
+        appendValue("roll_number", "rollNumber");
+        appendValue("passing_year", "passingYear");
+        appendValue("total_marks", "totalMarks");
+        appendValue("obtained_marks", "obtainedMarks");
+
+        appendValue("university", "university");
+        appendValue("campus", "campus");
+        appendValue("program", "program");
+        appendValue("session", "session");
+
+        formData.append("academicFile", academicFile.files[0]);
+        formData.append("cnicFile", cnicFile.files[0]);
+
+        // Use the profile photo first; otherwise use the document-section photo.
+        if (photoInput.files.length) {
+            formData.append("photoDocument", photoInput.files[0]);
+        } else {
+            formData.append("photoDocument", photoDocument.files[0]);
+        }
+
+        submitBtn.disabled = true;
+        nextBtn.disabled = true;
+        prevBtn.disabled = true;
+        submitBtn.textContent = "Submitting...";
+
+        try {
+            const response = await fetch("submit.php", {
+                method: "POST",
+                body: formData
+            });
+
+            const result = (await response.text()).trim();
+
+            if (result.startsWith("SUCCESS|")) {
+                const newApplicationID = result.split("|")[1];
+
+                document.getElementById("applicationID").textContent = newApplicationID;
+                document.getElementById("modalApplicationID").textContent = newApplicationID;
+                document.getElementById("successModal").style.display = "flex";
+
+                localStorage.removeItem("edufindApplicationDraft");
+            } else {
+                alert(result || "Application could not be submitted.");
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Server error. Please make sure Apache and MySQL are running and try again.");
+        } finally {
+            submitBtn.disabled = false;
+            nextBtn.disabled = false;
+            prevBtn.disabled = false;
+            submitBtn.textContent = "Submit Application 🚀";
+        }
+    });
+
+    document.querySelector(".close-modal")?.addEventListener("click", function () {
+        document.getElementById("successModal").style.display = "none";
+    });
+
+    document.getElementById("successModal")?.addEventListener("click", function (e) {
+        if (e.target === this) this.style.display = "none";
+    });
+
+    loadDraft();
+    calculatePercentage();
+    updateProgress();
+});
+</script>
+
+
+       
+
+</body>
+
+</html>
